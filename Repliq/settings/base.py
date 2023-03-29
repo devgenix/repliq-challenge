@@ -3,14 +3,9 @@ from pathlib import Path
 from decouple import config
 from datetime import timedelta
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 SECRET_KEY = config("SECRET_KEY")
-
-DEBUG = False
-
-ALLOWED_HOSTS = config("DJANGO_ALLOWED_HOSTS", '127.0.0.1').split(" ")
-
 
 # Application definition
 
@@ -63,18 +58,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Repliq.wsgi.application'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-
-# Database
-# https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -156,17 +139,3 @@ SIMPLE_JWT = {
     "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
     "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
 }
-
-# Cors Settings
-CORS_ALLOWED_ORIGINS = [
-    # "https://repliq.challenge",
-]
-
-# CSRF Settings
-CSRF_TRUSTED_ORIGINS = [
-    # "127.0.0.1",
-]
-
-# SSL Definition
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-SECURE_SSL_REDIRECT = False

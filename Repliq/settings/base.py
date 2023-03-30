@@ -9,6 +9,8 @@ SECRET_KEY = config("SECRET_KEY")
 
 # Application definition
 
+AUTH_USER_MODEL = 'users.User'
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -19,6 +21,7 @@ INSTALLED_APPS = [
     
     # Custom Apps
     'Assets.apps.AssetsConfig',
+    'users.apps.UsersConfig',
     
     # Third Party Apps
     "rest_framework",

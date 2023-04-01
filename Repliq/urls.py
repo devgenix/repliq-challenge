@@ -1,13 +1,13 @@
 # Swagger docs
+from Repliq.schema_generator import CustomSchemaGenerator
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
 # Django imports
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 # Own Imports
-from Repliq.schema_generator import CustomSchemaGenerator
 
 # Swagger docs
 schema_view = get_schema_view(
@@ -22,7 +22,9 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    path('restriceted/admin/', admin.site.urls),
+    path('restricted/admin/', admin.site.urls, name='root_admin'),
+    path('api/', include('Assets.urls')),
+    path('api/auth/', include('users.urls')),
 
     # Documentation by swagger
     path(

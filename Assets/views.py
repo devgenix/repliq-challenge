@@ -100,3 +100,18 @@ class CompanyView(APIView):
             return Response(ErrorResponse(f"Company by id {company_id} doesn't exist"))
         except Exception as e: # return any other error
             return Response(ErrorResponse(e))
+        
+class DeviceView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    pass
+
+class AllListView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    pass
+
+class CheckoutView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    pass

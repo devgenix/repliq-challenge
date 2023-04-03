@@ -10,7 +10,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import api_view, permission_classes
 
 # Own imports
-from Assets.serializers import CompanyModelSerializer, CreateCompanySerializer
+from Assets.serializers import CompanyModelSerializer
 from Assets.models import Company
 
 # Local imports
@@ -42,24 +42,24 @@ class CompanyView(APIView):
             return Response(serializer.errors, status=400)
     
     # Get company information
-    def get(self, request, company_id):
+    def get(self, request, pk):
         
         user = request.user
         if user.is_company_admin is not True or user.is_superuser is not True:
             return Response(ErrorResponse("You are not authorized to perform this action"))
         
         try:
-            company = Company.objects.filter(id=company_id)
+            company = Company.objects.filter(id=pk)
             
             serialized_data = CompanyModelSerializer(company, many=False)
             return Response(SuccessResponse("Retrieved Company", serialized_data))
         except Company.DoesNotExist: # return error if company was not found
-            return Response(ErrorResponse(f"Company by id {company_id} doesn't exist"))
+            return Response(ErrorResponse(f"Company by id {pk} doesn't exist"))
         except Exception as e: # return any other error
             return Response(ErrorResponse(e))
         
     # Update company information
-    def patch(self, request, company_id):
+    def patch(self, request, pk):
 
         user = request.user
         provided_name = request.data.get('name')
@@ -71,7 +71,7 @@ class CompanyView(APIView):
             return Response(ErrorResponse("Please provide name, only company name can be updated"))
         
         try:
-            company = Company.objects.filter(id=company_id) # get company by id
+            company = Company.objects.filter(id=pk) # get company by id
             
             # updated company name
             company.name = provided_name
@@ -81,30 +81,55 @@ class CompanyView(APIView):
             return Response(SuccessResponse("Updated Company name"))
         
         except Company.DoesNotExist: # return error if company was not found
-            return Response(ErrorResponse(f"Company by id {company_id} doesn't exist"))
+            return Response(ErrorResponse(f"Company by id {pk} doesn't exist"))
         except Exception as e: # return any other error
             return Response(ErrorResponse(e))
         
     # Delete Company
-    def delete(self, request, company_id):
+    def delete(self, request, pk):
         user = request.user
         if user.is_company_admin is not True or user.is_superuser is not True:
             return Response(ErrorResponse("You are not authorized to perform this action"))
         
         try:
-            company = Company.objects.filter(id=company_id)
+            company = Company.objects.filter(id=pk)
             
             company.delete()
-            return Response(SuccessResponse(f"Deleted Comany by id: {company_id}"))
+            return Response(SuccessResponse(f"Deleted Comany by id: {pk}"))
         except Company.DoesNotExist: # return error if company was not found
-            return Response(ErrorResponse(f"Company by id {company_id} doesn't exist"))
+            return Response(ErrorResponse(f"Company by id {pk} doesn't exist"))
         except Exception as e: # return any other error
             return Response(ErrorResponse(e))
-        
+    
+class EmployeeView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, request):
+        pass
+    
+    def get(self, request, pk):
+        pass
+    
+    def patch(self, request, pk):
+        pass
+    
+    def delete(self, request, pk):
+        pass 
+    
 class DeviceView(APIView):
     permission_classes = [IsAuthenticated]
     
-    pass
+    def post(self, request):
+        pass
+    
+    def get(self, request, pk):
+        pass
+    
+    def patch(self, request, pk):
+        pass
+    
+    def delete(self, request, pk):
+        pass 
 
 class AllListView(APIView):
     permission_classes = [IsAuthenticated]
@@ -114,4 +139,14 @@ class AllListView(APIView):
 class CheckoutView(APIView):
     permission_classes = [IsAuthenticated]
     
-    pass
+    def post(self, request):
+        pass
+    
+    def get(self, request, pk):
+        pass
+    
+    def patch(self, request, pk):
+        pass
+    
+    def delete(self, request, pk):
+        pass 
